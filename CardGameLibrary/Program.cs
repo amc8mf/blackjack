@@ -4,16 +4,6 @@ namespace CardGameLibrary
 {
     class Program
     {
-        //public static Array CardDeck()
-        //{
-        //    int[] cardArray = new int[52];
-        //    for (int i = 0; i < 52; i++)
-        //    {
-        //        cardArray[i] = i;
-        //    }
-        //    return cardArray;
-        //}
-
         public enum Suit
         {
             Clubs,
@@ -27,11 +17,17 @@ namespace CardGameLibrary
             String displayName;
             String suit;
             int value;
-            public Card(String displayName, String suit, int value)
+            int sequenceNum;
+            public Card(String displayName, String suit, int sequenceNum, int value)
             {
                 this.displayName = displayName;
                 this.suit = suit;
+                this.sequenceNum = value;
                 this.value = value;
+            }
+            public string getName()
+            {
+                return displayName;
             }
         }
 
@@ -43,13 +39,53 @@ namespace CardGameLibrary
                 this.deckArray = deckArray;
             }
         }
+
+        public class Player
+        {
+            String turn;
+            int totalChips;
+            int currentBet;
+        }
         static void Main(string[] args)
         {
-            //Array cardDeck = CardDeck();
-            //foreach (var item in cardDeck)
-            //{
-            //    Console.WriteLine(item.ToString());
-            //}
+            Card[] myDeck = new Card[51];
+            int sequenceNum = 1;
+            foreach(Suit suit in Enum.GetValues(typeof(Suit)))
+            {
+                for (int i = 2; i <= 14; i++)
+                    {
+                    myDeck[i] = new Card(GetDisplayName(i, suit), suit.ToString(), sequenceNum, i);
+                    sequenceNum += 1;
+                    Console.WriteLine(myDeck[i].getName());
+                }
+                
+            }
+
+            static string GetDisplayName(int value, Suit suit)
+                {
+                    String valueString = "";
+                    if (value >=2 && value <= 10)
+                    {
+                        valueString = value.ToString();
+                    }
+                    else if (value == 11)
+                    {
+                        valueString = "Jack";
+                    }
+                    else if (value == 12)
+                    {
+                        valueString = "Queen";
+                    }
+                    else if (value == 13)
+                    {
+                        valueString = "King";
+                    }
+                    else if (value == 14)
+                    {
+                        valueString = "Ace";
+                    }
+                    return valueString + " of " + suit;
+                }
         }
     }
 }
